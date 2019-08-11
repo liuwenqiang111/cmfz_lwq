@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ArticleDao">
+
+    <select id="showAllArticles" resultType="Article">
+        select * from t_article limit #{page},#{rows}
+    </select>
+
+    <select id="totalcount" resultType="Integer">
+        select count(*) from t_article
+    </select>
+
+    <insert id="save" >
+        insert into t_article values (#{id},#{title},#{insert_img},#{content},#{status},#{up_date},#{guruid})
+    </insert>
+
+
+<!--
+    <update id="update">
+        update t_article set insert_img = #{insert_img} where id = #{id}
+    </update>-->
+
+    <update id="update">
+        update t_article
+        <trim prefix="set"  suffixOverrides=",">
+            <if test="title!=null">title=#{title},</if>
+            <if test="insert_img!=null">insert_img=#{insert_img},</if>
+            <if test="content!=null">content=#{content},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="up_date!=null">up_date=#{up_date},</if>
+            <if test="guruid!=null">guruid=#{guruid},</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from t_article where id = #{id}
+    </delete>
+</mapper>
